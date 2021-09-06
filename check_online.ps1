@@ -1,5 +1,4 @@
-﻿
-$computers = Get-ADComputer -Filter {OperatingSystem -Like "*server*"} -Properties operatingsystem | foreach {$_.DNSHostName}
+﻿$computers = Get-ADComputer -Filter {OperatingSystem -Like "*server*"} -Properties operatingsystem | foreach {$_.DNSHostName}
 
 
 foreach ($computer in $computers) {
