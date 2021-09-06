@@ -1,0 +1,9 @@
+$computers = Get-ADComputer -Filter 'operatingsystem -like "*server" -and enable -eq "true" | foreach {$_.DNSHostName}
+
+foreach ($computer in $computers)
+  { $connected = test-connection $computer -quiet
+      if ($connected) {
+        write-host"$computer ist online."
+      else
+        write-host"$computer ist nicht online. Per WoL (Wake on Lan) wecken?"
+      }
