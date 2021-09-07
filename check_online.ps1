@@ -4,6 +4,6 @@
 foreach ($computer in $computers) {
     $connected = Test-Connection $computer -Count 1 -Quiet
         if ($connected) {
-            Write-Host -ForegroundColor Green "$computer - Ist erreichbar"
+            Write-Host -ForegroundColor Green -BackgroundColor Black "$computer - Ist online und erreichbar"
         }
     }
