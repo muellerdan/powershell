@@ -6,4 +6,7 @@ foreach ($computer in $computers) {
         if ($connected) {
             Write-Host -ForegroundColor Green -BackgroundColor Black "$computer - Ist online und erreichbar"
         }
+        else {
+            Write-Host -ForegroundColor Red -BackgroundColor Black "$computer - Nicht über 'Test-Connection' erreichbar, versuche 'Ping'"
+        }
     }
