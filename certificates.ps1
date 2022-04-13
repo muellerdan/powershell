@@ -21,8 +21,9 @@ if ($confirmation -eq "y") {
             $confirmation_lancom = Read-Host "Handelt es sich um LanCom Switche? (y/n)"
             if ($confirmation_lancom -eq "y") {
                 Get-Certificate -Template "Webserver-ExtendedValidation(2048)" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organization, OU=$OrganizationUnit, S=$State, E=$Email"
-                $PFXCert = Get-ChildItem -Path Cert:\LocalMachine\My
+                $PFXCert = Get-ChildItem -Path Cert:\LocalMachine\My | Where-Object {$_.Subject -Match "$FQDN"} | Select-Object -ExpandProperty Thumbprint
                 Write-Host $PFXCert
+                Export-PfxCertificate 
             }
             Get-Certificate -Template "Webserver-ExtendedValidation(2048)" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organization, OU=$OrganizationUnit, S=$State, E=$Email"
         }
