@@ -18,13 +18,19 @@ if ($confirmation -eq "y") {
     switch ($DeviceType) {
         switch {
             <# Frage nach Lancom Switches fehlt noch. + .pem export sowie -----BEGIN RSA PRIVATE KEY----- replacement #>
-            Get-Certificate -Template "Webserver-ExtendedValidation(2048)" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organisation, OU=$Organisationseinheit, S=$State, E=$Email"
+            $confirmation_lancom = Read-Host "Handelt es sich um LanCom Switche? (y/n)"
+            if ($confirmation_lancom -eq "y") {
+                Get-Certificate -Template "Webserver-ExtendedValidation(2048)" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organization, OU=$OrganizationUnit, S=$State, E=$Email"
+                $PFXCert = Get-ChildItem -Path Cert:\LocalMachine\My
+                Write-Host $PFXCert
+            }
+            Get-Certificate -Template "Webserver-ExtendedValidation(2048)" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organization, OU=$OrganizationUnit, S=$State, E=$Email"
         }
         Router {
 
         }
         Server {
-            Get-Certificate -Template "Webserver-ExtendedValidation" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organisation, OU=$Organisationseinheit, S=$State, E=$Email"
+            Get-Certificate -Template "Webserver-ExtendedValidation" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organisation, OU=$OrganizationUnit, S=$State, E=$Email"
         }
      }
     }
