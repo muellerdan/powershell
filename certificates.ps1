@@ -1,5 +1,5 @@
-$Organisation = "Branddirektion München"
-$OrganisationsEinheit = "IT 25"
+$Organization = "Branddirektion München"
+$OrganizationUnit = "IT 25"
 $Country = "DE"
 $EMail = "bfm.it2-betrieb_alarmuebertragungsanlagen@muenchen.de"
 $Domain = "bma-m.loc"
