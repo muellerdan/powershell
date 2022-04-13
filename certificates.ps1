@@ -7,11 +7,9 @@ $Location = "München"
 $State = "Bayern"
 
 Do {
-
 $Hostname = Read-Host "Wie lautet der NetBIOS Name des Hosts?"
 $FQDN = "$Hostname.$Domain"
 $IPAdress = Read-Host "Wie lautet die IP Adresse des Hosts?"
-
 $confirmation = Read-Host "Die Volle FQDN lautet somit: $FQDN, und die IP Adresse ist die $IPAdress. Ist dies richtig? (y/n)"
 if ($confirmation -eq "y") {
     $DeviceType = Read-Host "Um welche Art von Host handelt es sich? (Switch, Router, Server)"
