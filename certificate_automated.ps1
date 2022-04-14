@@ -1,7 +1,8 @@
 ﻿<#  Importierung der CSV-Datei für die Automatisierung #>
-$CSVPath = "C:\Users\d mueller\Downloads\netbox_devices (2).csv" <# Read-Host "Wo wurde die CSV-Tabelle gespeichert? (Absoluter Pfad)"#>
+$CSVPath = "C:\Users\d mueller\Downloads\netbox_devices (3).csv" <# Read-Host "Wo wurde die CSV-Tabelle gespeichert? (Absoluter Pfad)"#>
 $devices = Import-Csv -Path $CSVPath
-$exportpwd = Read-Host "Geben Sie eine Export-PIN ein" 
+$unsecpwd =  Read-Host "Export-Pwd"
+$secpwd = Read-Host "Bitte noch einmal Bestätigen" -AsSecureString
 
 $Organization = "Branddirektion München"
 $OrganizationUnit = "IT 25"
@@ -25,9 +26,9 @@ foreach ($device in $devices){
                 Write-Host "2048 Zertifikat wird ausgestellt für $FQDN"
                 Get-Certificate -Template "Webserver-ExtendedValidation(2048)" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organization, OU=$OrganizationUnit, S=$State, E=$Email"
                 $PFXCert = Get-ChildItem -Path Cert:\LocalMachine\My | Where-Object {$_.Subject -Match "$FQDN"} | Select-Object -ExpandProperty Thumbprint
-                Export-PfxCertificate -Cert Cert:\LocalMachine\My\$PFXCert -FilePath "C:\certs\$FQDN.pfx" -Password $exportpwd
+                Export-PfxCertificate -Cert Cert:\LocalMachine\My\$PFXCert -FilePath "C:\certs\$FQDN.pfx" -Password $secpwd
                 if ($Manufacturer -eq "LANCOM"){
-                    openssl.exe pkcs12 -in "C:\certs\$FQDN.pfx" -out "C:\certs\$FQDN.pem"
+                    openssl.exe  pkcs12 -in "C:\certs\$FQDN.pfx" -out "C:\certs\$FQDN.pem" -passin pass:$unsecpwd -passout pass:$unsecpwd
                     $PEMContent = Get-Content -Path "C:\certs\$FQDN.pem" 
                     $GoodPEMContent = $PEMContent -replace '-----BEGIN ENCRYPTED PRIVATE KEY-----', '-----BEGIN RSA PRIVATE KEY-----'
                     $VeryGoodPEMContent = $GoodPEMContent -replace '-----END ENCRYPTED PRIVATE KEY-----', '-----END RSA PRIVATE KEY-----'
