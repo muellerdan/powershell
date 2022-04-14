@@ -12,15 +12,20 @@ $State = "Bayern"
 
 <#  Auslesen der .CSV-Datei nach Tags in NetBox und deren Hersteller. Tags: SSL, Webserver (2048bit), Webserver (4096bit)#>
 foreach ($device in $devices){
-    $tags = $device | Select-Object -ExpandProperty Tags | ConvertFrom-String -Delimiter "," 
-    Write-Host "$tags"
-    switch ($tags) {
-        "Webserver (2048bit)"{
-            Write-Host "2048"
-        }
-        "Webserver (4096bit)"{
-            Write-Host "4096"
-        }
+    $HostName = $device.Name
+    $FQDN = "$HostName.$Domain"
+    Write-Host $FQDN
+    $tags = $device.Tags -split ","
+    if ($tags -eq "SSL") {
+            if ($tags -eq "Webserver (4096bit)"){
+                Write-Host "4096 zert"
+            }
+            else {
+                Write-Host "2048 wird erstellt für $FQDN"
+            }
+    }
+    else {
+        Write-Host "Es wurde kein SSL Tag für $FQDN gefunden."
     }
 }
 
