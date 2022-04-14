@@ -27,6 +27,7 @@ foreach ($device in $devices){
                 Get-Certificate -Template "Webserver-ExtendedValidation(2048)" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organization, OU=$OrganizationUnit, S=$State, E=$Email"
                 $PFXCert = Get-ChildItem -Path Cert:\LocalMachine\My | Where-Object {$_.Subject -Match "$FQDN"} | Select-Object -ExpandProperty Thumbprint
                 Export-PfxCertificate -Cert Cert:\LocalMachine\My\$PFXCert -FilePath "C:\certs\$FQDN.pfx" -ChainOption EndEntityCertOnly -CryptoAlgorithmOption TripleDES_SHA1 -Password $secpwd -Force
+                Get-ChildItem Cert:\LocalMachine\My\$PFXCert | Remove-Item
                 if ($Manufacturer -eq "LANCOM"){
                     openssl.exe  pkcs12 -in C:\certs\$FQDN.pfx -out C:\certs\$FQDN.pem -passin pass:$unsecpwd -nodes
                     $PEMContent = Get-Content -Path "C:\certs\$FQDN.pem" 
