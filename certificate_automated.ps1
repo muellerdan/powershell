@@ -1,5 +1,5 @@
-<#  Importierung der CSV-Datei für die Automatisierung #>
-$CSVPath = "C:\Users\d mueller\Downloads\netbox.csv" <# Read-Host "Wo wurde die CSV-Tabelle gespeichert? (Absoluter Pfad)"#>
+﻿<#  Importierung der CSV-Datei für die Automatisierung #>
+$CSVPath = "C:\Users\d mueller\Downloads\netbox_devices (2).csv" <# Read-Host "Wo wurde die CSV-Tabelle gespeichert? (Absoluter Pfad)"#>
 $devices = Import-Csv -Path $CSVPath
 
 $Organization = "Branddirektion München"
@@ -9,10 +9,19 @@ $EMail = "bfm.it2-betrieb_alarmuebertragungsanlagen@muenchen.de"
 $Domain = "bma-m.loc"
 $Location = "München"
 $State = "Bayern"
+
 <#  Auslesen der .CSV-Datei nach Tags in NetBox und deren Hersteller. Tags: SSL, Webserver (2048bit), Webserver (4096bit)#>
 foreach ($device in $devices){
-    $tags = $devices | Select-Object -ExpandProperty Tags | ConvertFrom-String -Delimiter ","
-    Write-Host $tags
+    $tags = $device | Select-Object -ExpandProperty Tags | ConvertFrom-String -Delimiter "," 
+    Write-Host "$tags"
+    switch ($tags) {
+        "Webserver (2048bit)"{
+            Write-Host "2048"
+        }
+        "Webserver (4096bit)"{
+            Write-Host "4096"
+        }
+    }
 }
 
 
