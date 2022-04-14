@@ -21,7 +21,7 @@ foreach ($device in $devices){
     if ($tags -eq "SSL") {
             if ($tags -eq "Webserver (4096bit)"){
                 Write-Host "4096 Zertifikat wird ausgestellt für $FQDN"
-                Get-Certificate -Template "Webserver-ExtendedValidation(4096)" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organization, OU=$OrganizationUnit, S=$State, E=$Email"
+                Get-Certificate -Template "Webserver-ExtendedValidation" -DnsName "$FQDN" -CertStoreLocation Cert:\LocalMachine\My -SubjectName "CN=$FQDN, C=$Country, L=$Location, O=$Organization, OU=$OrganizationUnit, S=$State, E=$Email"
                 $PFXCert = Get-ChildItem -Path Cert:\LocalMachine\My | Where-Object {$_.Subject -Match "$FQDN"} | Select-Object -ExpandProperty Thumbprint
                 Export-PfxCertificate -Cert Cert:\LocalMachine\My\$PFXCert -FilePath "C:\certs\$FQDN.pfx" -ChainOption EndEntityCertOnly -CryptoAlgorithmOption TripleDES_SHA1 -Password $secpwd -Force
                 Get-ChildItem Cert:\LocalMachine\My\$PFXCert | Remove-Item 
