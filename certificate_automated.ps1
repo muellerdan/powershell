@@ -4,13 +4,13 @@ $devices = Import-Csv -Path $CSVPath
 $unsecpwd =  Read-Host "Export-Pwd" 
 $secpwd = Read-Host "Bitte noch einmal Bestätigen" -AsSecureString
 
-$Organization = "Branddirektion München"
-$OrganizationUnit = "IT 25"
-$Country = "DE"
-$EMail = "bfm.it2-betrieb_alarmuebertragungsanlagen@muenchen.de"
-$Domain = "bma-m.loc"
-$Location = "München"
-$State = "Bayern"
+$Organization = ""
+$OrganizationUnit = ""
+$Country = ""
+$EMail = ""
+$Domain = ""
+$Location = ""
+$State = ""
 
 <#  Auslesen der .CSV-Datei nach Tags in NetBox und deren Hersteller. Tags: SSL, Webserver (2048bit), Webserver (4096bit)#>
 foreach ($device in $devices){
