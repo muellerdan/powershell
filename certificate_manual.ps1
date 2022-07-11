@@ -1,10 +1,10 @@
-﻿$Organization = "Branddirektion München"
-$OrganizationUnit = "IT 25"
-$Country = "DE"
-$EMail = "bfm.it2-betrieb_alarmuebertragungsanlagen@muenchen.de"
-$Domain = "bma-m.loc"
-$Location = "München"
-$State = "Bayern"
+﻿$Organization = ""
+$OrganizationUnit = ""
+$Country = ""
+$EMail = ""
+$Domain = ""
+$Location = ""
+$State = ""
 
 Do {
 $Hostname = Read-Host "Wie lautet der NetBIOS Name des Hosts?"
